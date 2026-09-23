@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="MaxStyle">
+  <!-- Знак: кольца ножниц в латуни на графите. Фигурами, без шрифта: для аватарки и фавиконки -->
+  <circle cx="64" cy="64" r="64" fill="#262B2F"/>
+  <g stroke="#A8864F" fill="none" stroke-linecap="round">
+    <line x1="56" y1="78" x2="88" y2="26" stroke-width="7"/>
+    <line x1="72" y1="78" x2="40" y2="26" stroke-width="7"/>
+    <circle cx="50" cy="92" r="12" stroke-width="5"/>
+    <circle cx="78" cy="92" r="12" stroke-width="5"/>
+  </g>
+  <circle cx="64" cy="65" r="4" fill="#A8864F"/>
+</svg>

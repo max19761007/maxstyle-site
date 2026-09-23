@@ -1,0 +1,43 @@
+/* MaxStyle - цвета бренда. Источник: брендбук https://claude.ai/artifact/19LDFGYJs61R5xHQt8g2K4
+   Основная тема светлая. Тёмная - атрибут data-theme="dark" на <html>. */
+
+:root {
+  color-scheme: light;
+  --stone: #ECECE8;         /* фон страницы */
+  --stone-raised: #F7F7F4;  /* карточки услуг, формы записи */
+  --line: #CDCFCB;          /* тонкие разделители в прайсе */
+  --graphite: #1F2326;      /* основной текст */
+  --steel: #54606A;         /* подписи, длительность, адрес */
+  --oxblood: #6E2231;       /* бордовый: кнопка "Записаться", крупные плашки */
+  --on-oxblood: #F7F7F4;    /* текст на oxblood */
+  --brass: #A8864F;         /* латунь: линии, рамки, иконки (не текст) */
+  --brass-ink: #7A5E2F;     /* цены и акценты текстом */
+  --panel: #262B2F;         /* тёмные секции в обеих темах */
+  --on-panel: #ECECE8;      /* текст на panel */
+
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-32: 32px;
+  --space-64: 64px;
+
+  --radius-none: 0px;       /* фото, плашки, секции */
+  --radius-sm: 2px;         /* кнопки, поля */
+  --radius-round: 999px;    /* только аватар и круглые мотивы */
+
+  --focus-ring: 0 0 0 2px var(--stone), 0 0 0 4px var(--oxblood);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --stone: #15181A;
+  --stone-raised: #1F2326;
+  --line: #33383C;
+  --graphite: #ECECE8;
+  --steel: #9AA6AE;
+  --oxblood: #7A2636;
+  --on-oxblood: #F7F1EE;
+  --brass: #C9A56B;
+  --brass-ink: #D4B27A;
+  --panel: #2B3135;
+  --focus-ring: 0 0 0 2px var(--stone), 0 0 0 4px var(--brass);
+}
