@@ -349,3 +349,52 @@ a { color: inherit; }
   .lb-prev, .lb-next { top: auto; bottom: var(--space-16); transform: none; }
   .lightbox-img { max-height: calc(100dvh - 240px); }
 }
+
+/* ---------- Живые кнопки ----------
+   Латунный отблеск, как свет на лезвии ножниц: проходит по кнопке при наведении.
+   Свечение тёплое и сдержанное, кнопка чуть приподнимается. */
+.btn { position: relative; overflow: hidden; isolation: isolate;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease,
+              transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease; }
+.btn::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(110deg, transparent 38%, color-mix(in srgb, var(--brass) 45%, transparent) 48%,
+              color-mix(in srgb, var(--on-oxblood) 35%, transparent) 50%, transparent 62%);
+  transform: translateX(-110%);
+}
+.btn:hover::after { transform: translateX(110%); transition: transform .9s cubic-bezier(.3, .6, .2, 1); }
+.btn-primary:hover, .btn-light:hover, .btn-outline:hover {
+  opacity: 1; transform: translateY(-2px);
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--oxblood) 85%, transparent),
+              0 0 0 1px color-mix(in srgb, var(--brass) 55%, transparent);
+}
+.btn-light:hover { box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--brass) 80%, transparent); }
+.btn:active { transform: translateY(0) scale(.98); transition-duration: .08s; }
+.btn:focus-visible { box-shadow: var(--focus-ring); }
+
+/* Тихие кнопки с телефоном: под текстом прорисовывается латунная линия */
+.btn-quiet::after, .btn-quiet-light::after {
+  inset: auto 4px 10px; height: 1px; background: var(--brass);
+  transform: scaleX(0); transform-origin: left;
+}
+.btn-quiet:hover::after, .btn-quiet-light:hover::after { transform: scaleX(1); transition: transform .35s ease; }
+.btn-quiet-light:hover { text-decoration: none; }
+
+/* Главная кнопка «Записаться онлайн» в первом экране изредка ловит блик сама */
+.hero .btn-primary::after { animation: btn-sheen 6s ease-in-out 2s infinite; }
+.hero .btn-primary:hover::after { animation: none; }
+@keyframes btn-sheen { 0% { transform: translateX(-110%); } 16%, 100% { transform: translateX(110%); } }
+
+/* Фильтры галереи и кнопки просмотра фото */
+.chip { transition: border-color .15s ease, background-color .15s ease, color .15s ease, box-shadow .25s ease; }
+.chip:hover { border-color: var(--brass); box-shadow: 0 0 0 1px color-mix(in srgb, var(--brass) 40%, transparent),
+  0 4px 14px -6px color-mix(in srgb, var(--brass) 80%, transparent); }
+.lb-btn { transition: background-color .2s ease, color .2s ease, box-shadow .3s ease; }
+.lb-btn:hover { box-shadow: 0 0 22px -2px color-mix(in srgb, var(--brass) 75%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: background-color .15s ease, color .15s ease, box-shadow .2s ease; }
+  .btn:hover, .btn:active { transform: none; }
+  .btn-primary::after, .btn-light::after, .btn-outline::after { display: none; }
+  .btn-quiet::after, .btn-quiet-light::after { transition: none; }
+}
