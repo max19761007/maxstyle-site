@@ -19,14 +19,20 @@
 <header class="site-header">
   <div class="wrap header-row">
     <a class="wordmark" href="#top" aria-label="MaxStyle, в начало страницы">MaxStyle</a>
-    <nav class="nav" aria-label="Разделы">
+    <nav class="nav nav-menu" id="site-menu" aria-label="Разделы">
       <a href="#price">Прайс</a>
       <a href="#gallery">Галерея</a>
-      <a href="cvetotip.html">Цветотип</a>
+      <a href="cvetotip.html">Цветотип<span class="nav-note">Тест и подбор цвета волос</span></a>
       <a href="#reviews">Отзывы</a>
       <a href="#visit">Как добраться</a>
+      <div class="nav-extra">
+        <span>Гостиничная ул., 9А, корп. 3, каб. 235</span>
+        <span>По записи, с 10:00</span>
+        <a href="tel:+79257111211">+7 (925) 711-12-11</a>
+      </div>
     </nav>
     <a class="btn btn-primary header-cta" href="https://widget.sonline.su/ru/services/?placeid=655344472" target="_blank" rel="noopener">Записаться онлайн</a>
+    <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="site-menu"><span class="menu-icon" aria-hidden="true"></span>Меню</button>
   </div>
 </header>
 
@@ -201,5 +207,6 @@
 </div>
 
 <script src="gallery.js" defer></script>
+<script src="menu.js" defer></script>
 </body>
 </html>

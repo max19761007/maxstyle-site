@@ -211,6 +211,11 @@ a { color: inherit; }
 /* ---------- Нижняя панель на телефоне ---------- */
 .mobile-bar { display: none; }
 
+/* ---------- Мобильное меню ----------
+   На узком экране разделы открываются тёмной табличкой, как прайс:
+   латунная линия сверху, строки через тонкую сталь, названия шрифтом заголовков. */
+.menu-toggle, .nav-note, .nav-extra { display: none; }
+
 /* ---------- Адаптив ---------- */
 @media (max-width: 960px) {
   .nav { display: none; }
@@ -247,6 +252,115 @@ a { color: inherit; }
     border-top: 1px solid var(--line);
   }
   .mobile-bar .btn-primary { flex: 1; }
+}
+
+/* Мобильное меню: кнопка и табличка */
+@media (max-width: 960px) {
+  .header-row { gap: var(--space-16); }
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    min-height: 40px;
+    padding: 0 14px 0 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--graphite);
+    font: 400 15px/1 var(--font-sans);
+    cursor: pointer;
+    transition: border-color .15s ease;
+  }
+  .menu-toggle:hover, .menu-toggle[aria-expanded="true"] { border-color: var(--brass); }
+  .menu-icon { position: relative; width: 18px; height: 10px; }
+  .menu-icon::before, .menu-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: currentColor;
+    transition: top .25s ease, transform .25s ease;
+  }
+  .menu-icon::before { top: 0; }
+  .menu-icon::after { top: calc(100% - 1.5px); }
+  .menu-toggle[aria-expanded="true"] .menu-icon::before { top: calc(50% - .75px); transform: rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] .menu-icon::after { top: calc(50% - .75px); transform: rotate(-45deg); }
+
+  .nav.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: fixed;
+    inset: var(--menu-top, 73px) 0 0 0;
+    z-index: 15;
+    margin: 0;
+    padding: var(--space-32) var(--space-32) var(--space-64);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--panel);
+    color: var(--on-panel);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity .2s ease, transform .25s cubic-bezier(.2, .8, .2, 1), visibility 0s linear .25s;
+  }
+  .nav.nav-menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity .2s ease, transform .25s cubic-bezier(.2, .8, .2, 1), visibility 0s;
+  }
+  .nav-menu > a {
+    display: grid;
+    gap: 2px;
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--steel);
+    font-family: var(--font-display);
+    font-size: 34px;
+    line-height: 40px;
+    color: var(--on-panel);
+  }
+  .nav-menu > a:first-child { border-top: 1px solid var(--brass); }
+  .nav-menu > a:hover {
+    color: var(--on-panel);
+    text-decoration: underline;
+    text-decoration-color: var(--brass);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 8px;
+  }
+  .nav-menu a:focus-visible { box-shadow: 0 0 0 2px var(--brass); }
+  .nav-note { display: block; font: 400 13px/18px var(--font-sans); color: var(--on-panel); opacity: .7; }
+  .nav-extra {
+    display: grid;
+    gap: 4px;
+    margin-top: var(--space-32);
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--on-panel);
+  }
+  .nav-extra span { opacity: .8; }
+  .nav-extra a {
+    justify-self: start;
+    margin-top: var(--space-8);
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--on-panel);
+    font-variant-numeric: tabular-nums;
+    text-decoration-color: var(--brass);
+    text-underline-offset: 4px;
+  }
+  .menu-open, .menu-open body { overflow: hidden; }
+}
+
+@media (max-width: 640px) {
+  .menu-toggle { margin-left: auto; }
+  .nav.nav-menu { padding: var(--space-16) var(--space-16) calc(80px + var(--space-32)); }
+  .nav-menu > a { font-size: 30px; line-height: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav.nav-menu, .nav.nav-menu.is-open, .menu-icon::before, .menu-icon::after { transition: none; }
 }
 
 /* Заголовок прайса - крупно, как гравировка на табличке */
