@@ -1,0 +1,246 @@
+/* MaxStyle - страница «Цветотип». Дополняет styles.css.
+   Цвета интерфейса только из brand/. Цвет прядей (--c) - условный образец оттенка, задаётся в разметке. */
+
+html { scroll-padding-top: 96px; }
+
+/* ---------- Прядь-образец, как в палитре красителя ---------- */
+.strand {
+  position: relative;
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--c) 72%, var(--graphite)) 0%,
+    var(--c) 28%,
+    color-mix(in srgb, var(--c) 80%, var(--stone-raised)) 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 86% 96%, 62% 99%, 42% 100%, 16% 96%, 0 92%);
+}
+/* волокна */
+.strand::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg,
+    color-mix(in srgb, var(--stone-raised) 9%, transparent) 0 1px,
+    transparent 1px 4px,
+    color-mix(in srgb, var(--graphite) 6%, transparent) 4px 5px,
+    transparent 5px 7px);
+}
+
+/* ---------- Первый экран ---------- */
+.color-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: var(--space-64);
+  align-items: center;
+  padding-block: var(--space-64);
+}
+.color-hero-text { display: grid; gap: var(--space-32); justify-items: start; }
+.color-hero .lead { color: var(--steel); max-width: 34em; }
+
+.palette {
+  background: var(--panel);
+  color: var(--on-panel);
+  padding: 0 var(--space-32) var(--space-16);
+}
+.palette-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-16);
+  border-top: 3px solid var(--brass);
+}
+.swatch-group {
+  display: grid;
+  gap: var(--space-16);
+  padding-bottom: var(--space-8);
+  color: var(--on-panel);
+  text-decoration: none;
+}
+.swatch-strands { display: flex; gap: 3px; height: 280px; }
+.swatch-strands .strand { transform-origin: 50% 0; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.swatch-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 28px;
+  border-bottom: 1px solid transparent;
+  justify-self: start;
+  transition: border-color .2s ease;
+}
+.swatch-group:hover .strand { transform: translateY(6px); }
+.swatch-group:hover .strand:nth-child(even) { transform: translateY(10px); }
+.swatch-group:hover .swatch-name,
+.swatch-group:focus-visible .swatch-name { border-bottom-color: var(--brass); }
+.swatch-group:focus-visible { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--brass); }
+.palette-note { font-size: 13px; line-height: 18px; opacity: .7; padding-top: var(--space-8); }
+
+/* Единственное движение страницы: пряди опускаются с планки при загрузке */
+.palette .strand { animation: strand-drop .9s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--g, 0) * 110ms + var(--i) * 45ms); }
+.swatch-group:nth-child(2) { --g: 1; }
+.swatch-group:nth-child(3) { --g: 2; }
+.swatch-group:nth-child(4) { --g: 3; }
+@keyframes strand-drop { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* ---------- Тест ---------- */
+.test { background: var(--stone-raised); border-block: 1px solid var(--line); padding-block: var(--space-64); }
+.test-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: var(--space-32) var(--space-64);
+}
+.test-intro { display: grid; gap: var(--space-16); align-content: start; }
+.test-intro p { color: var(--steel); max-width: 30em; }
+.test-check { grid-column: 2; color: var(--steel); font-size: 15px; line-height: 24px; max-width: 40em; }
+
+.quiz { display: grid; gap: var(--space-32); }
+.quiz-questions { border-top: 1px solid var(--brass); }
+.q {
+  margin: 0;
+  padding: var(--space-16) 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+.q-text { padding: 0; margin-bottom: var(--space-8); font-weight: 600; }
+.q-options { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+.opt { position: relative; display: flex; }
+.opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.opt span {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px var(--space-16);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--stone);
+  font-size: 15px;
+  line-height: 20px;
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease;
+}
+.opt:hover span { border-color: var(--graphite); }
+.opt input:checked + span { background: var(--graphite); border-color: var(--graphite); color: var(--stone); }
+.opt input:focus-visible + span { box-shadow: var(--focus-ring); }
+
+.quiz-result { background: var(--panel); color: var(--on-panel); padding: var(--space-32); }
+.quiz-progress { opacity: .75; }
+.quiz-answer[hidden] { display: none; }
+.quiz-answer { display: grid; gap: var(--space-8); justify-items: start; }
+.quiz-label { font-size: 13px; line-height: 18px; opacity: .75; }
+.quiz-season { font-family: var(--font-display); font-size: 64px; line-height: 64px; }
+.quiz-why { max-width: 34em; opacity: .85; margin-bottom: var(--space-16); }
+.quiz-answer .btn-quiet-light { background: none; border: 0; cursor: pointer; }
+
+/* ---------- Сезоны ---------- */
+.season { padding-block: var(--space-64); }
+.season-alt { background: var(--stone-raised); border-block: 1px solid var(--line); }
+
+.season-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-32);
+  align-items: end;
+}
+.season-strands { display: flex; gap: 3px; width: 76px; height: 132px; align-self: stretch; border-top: 3px solid var(--brass); }
+.season-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(64px, 10vw, 128px);
+  line-height: .9;
+  letter-spacing: -0.01em;
+}
+.season-tag { color: var(--steel); font-size: 18px; line-height: 28px; margin-top: var(--space-8); }
+.season-trait { font-size: 18px; line-height: 28px; max-width: 28em; }
+
+.season-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-64);
+  margin-top: var(--space-64);
+}
+.season-body .h2 { padding-bottom: var(--space-16); border-bottom: 1px solid var(--brass); }
+.season-clothes { color: var(--steel); font-size: 15px; line-height: 24px; margin-top: var(--space-16); }
+
+.facts-list > div {
+  display: grid;
+  grid-template-columns: 7em minmax(0, 1fr);
+  gap: var(--space-16);
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.facts-list dt { color: var(--steel); }
+
+/* Подтипы: строки, как карта образцов */
+.subtypes { margin-top: var(--space-64); }
+.subtypes-title { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 32px; color: var(--steel); margin-bottom: var(--space-16); }
+.subtype {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr);
+  gap: var(--space-32);
+  padding-block: var(--space-32);
+  border-top: 1px solid var(--line);
+}
+.subtype:first-of-type { border-top-color: var(--brass); }
+.subtype-about { display: grid; gap: var(--space-8); align-content: start; }
+.subtype-title { font-family: var(--font-display); font-weight: 400; font-size: 34px; line-height: 38px; }
+.subtype-title a { text-decoration: none; }
+.subtype-title a:hover { color: var(--oxblood); }
+.subtype-trait { color: var(--graphite); }
+.subtype-about .facts-list { margin-top: var(--space-8); font-size: 15px; line-height: 22px; }
+.subtype-about .facts-list > div { grid-template-columns: 5em minmax(0, 1fr); padding-block: 8px; }
+
+.subtype-hair { display: grid; gap: var(--space-16); align-content: start; }
+.strand-row { display: flex; flex-wrap: wrap; gap: var(--space-16) var(--space-8); }
+.strand-row li { width: 64px; display: grid; gap: var(--space-8); align-content: start; }
+.strand-row .strand { height: 132px; width: 36px; flex: none; border-top: 3px solid var(--brass); }
+.strand-name { font-size: 12px; line-height: 16px; color: var(--steel); hyphens: auto; }
+.subtype-suits { font-size: 15px; line-height: 24px; }
+
+.subtype-notes { display: grid; gap: var(--space-16); align-content: start; }
+.subtype-notes dt { font-size: 13px; line-height: 18px; color: var(--steel); }
+.subtype-notes dd { font-size: 15px; line-height: 22px; margin-top: 2px; }
+
+.color-sources { padding-block: var(--space-32) 0; color: var(--steel); font-size: 13px; line-height: 18px; max-width: 1160px; }
+
+/* ---------- Адаптив ---------- */
+@media (max-width: 960px) {
+  html { scroll-padding-top: 120px; }
+  .header-row { flex-wrap: wrap; row-gap: 0; }
+  .page-color .season-nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    margin: 0;
+    gap: var(--space-32);
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+  .color-hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-32); }
+  .test-inner { grid-template-columns: minmax(0, 1fr); }
+  .test-check { grid-column: auto; }
+  .season-head { grid-template-columns: auto minmax(0, 1fr); }
+  .season-trait { grid-column: 1 / -1; }
+  .subtype { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .subtype-about { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  html { scroll-padding-top: 108px; }
+  .palette { padding-inline: var(--space-16); }
+  .palette-rail { gap: var(--space-8); }
+  .swatch-strands { height: 170px; gap: 2px; }
+  .swatch-name { font-size: 20px; line-height: 24px; }
+  .season-strands { width: 56px; height: 96px; }
+  .season-body { grid-template-columns: minmax(0, 1fr); gap: var(--space-32); margin-top: var(--space-32); }
+  .subtype { grid-template-columns: minmax(0, 1fr); gap: var(--space-16); }
+  .strand-row li { width: 60px; }
+  .strand-row .strand { height: 112px; width: 32px; }
+  .quiz-result { padding: var(--space-16); }
+  .quiz-season { font-size: 48px; line-height: 48px; }
+  .facts-list > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .subtype-about .facts-list > div { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .palette .strand { animation: none; }
+  .swatch-strands .strand { transition: none; }
+  .swatch-group:hover .strand, .swatch-group:hover .strand:nth-child(even) { transform: none; }
+}
